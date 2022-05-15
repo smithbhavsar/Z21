@@ -16,22 +16,23 @@ app.use(bodyParser.urlencoded({
   });
 
   app.post('/data', function(req,res){
-
     const url = 'https://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?tp=2&frmdt=01-Apr-2022&todt=11-Apr-2022'
     const options = {
       method: 'POST',
       json: true,
     }
-    request(url, options, (err,res,body) => {
-      console.log("body");
-      const worksheet = xlsx.utils.book_new(body);
-      const workbook = xlsx.utils.book_new();
+    const response = request(url, options, (err,res) => {
+
+      const data = response.json();
+      console.log(data);
+      // const worksheet = xlsx.utils.book_new(response.body);
+      // const workbook = xlsx.utils.book_new();
+
+      // xlsx.utils.book_append_sheet(workbook,worksheet,'nav data');
   
-      xlsx.utils.book_append_sheet(workbook,worksheet,'nav data');
-  
-      xlsx.write(workbook,{bookType:'xlsx', type:"buffer"});
-      xlsx.write(workbook,{bookType:'xlsx', type:"binary"});
-      xlsx.writeFile(workbook,"Navdata.xlsx");
+      // xlsx.write(workbook,{bookType:'xlsx', type:"buffer"});
+      // xlsx.write(workbook,{bookType:'xlsx', type:"binary"});
+      // xlsx.writeFile(workbook,"Navdata.xlsx");
     });
 
   });
@@ -40,4 +41,4 @@ app.use(bodyParser.urlencoded({
     
   });
 
-  app.listen(3000);
+  app.listen(8080);
